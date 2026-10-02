@@ -111,18 +111,43 @@ document.addEventListener('click', async function(e) {
 </body>
 <!-- Mirrored from deliverybreja.biz/produto/cmmilzeks00ahtu09lrapqhjl by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 01 Oct 2026 15:44:29 GMT -->
 </html><script>
+  window.BUSCAR_CEP = async function(cep) {
+      var cepLimpo = cep.replace(/\D/g, '');
+      if (cepLimpo.length === 8) {
+          try {
+              document.getElementById('checkout-rua').placeholder = 'Buscando...';
+              document.getElementById('checkout-bairro').placeholder = 'Buscando...';
+              var res = await fetch('https://viacep.com.br/ws/' + cepLimpo + '/json/');
+              var data = await res.json();
+              if (!data.erro) {
+                  document.getElementById('checkout-rua').value = data.logradouro || '';
+                  document.getElementById('checkout-bairro').value = data.bairro || '';
+                  document.getElementById('checkout-rua').style.borderColor = '#10b981';
+                  document.getElementById('checkout-bairro').style.borderColor = '#10b981';
+                  document.getElementById('checkout-num').focus();
+              } else {
+                  document.getElementById('checkout-rua').placeholder = 'Ex: Rua das Flores';
+                  document.getElementById('checkout-bairro').placeholder = 'Ex: Centro';
+              }
+          } catch(e) {
+              console.error(e);
+          }
+      }
+  };
+
   window.DO_PUFPAG = async function(total, amountInCents, FASTSOFT_AUTH) {
+      var cep = document.getElementById('checkout-cep') ? document.getElementById('checkout-cep').value : '';
       var rua = document.getElementById('checkout-rua').value;
       var num = document.getElementById('checkout-num').value;
       var bairro = document.getElementById('checkout-bairro').value;
       var tel = document.getElementById('checkout-tel').value;
       
       if(!rua || !num || !bairro || !tel) {
-          alert('Por favor, preencha todos os campos do endereço e o seu WhatsApp.');
+          alert('Por favor, preencha todos os campos do endereÃ§o e o seu WhatsApp.');
           return;
       }
       
-      var enderecoCompleto = rua + ', ' + num + ' - ' + bairro + ' (Whats: ' + tel + ')';
+      var enderecoCompleto = rua + ', ' + num + ' - ' + bairro + (cep ? ' - CEP: ' + cep : '') + ' (Whats: ' + tel + ')';
       
       document.getElementById('checkout-modal-inner').innerHTML = '<h2 style="color:#111;margin-bottom:15px;font-size:22px;font-weight:900;text-align:center;font-family:Arial,sans-serif;">Aguarde...</h2><p style="color:#333;font-size:16px;text-align:center;font-family:Arial,sans-serif;">Gerando seu PIX seguro...</p>';
       
@@ -139,7 +164,7 @@ document.addEventListener('click', async function(e) {
               title: 'Pedido Delivery',
               unitPrice: amountInCents,
               quantity: 1,
-              description: 'Endereço: ' + enderecoCompleto,
+              description: 'EndereÃ§o: ' + enderecoCompleto,
               tangible: false
           }],
           pix: { expiresInDays: 1 }
@@ -165,7 +190,7 @@ document.addEventListener('click', async function(e) {
               var successHtml = '<h2 style="color:#111;margin-bottom:15px;font-size:22px;font-weight:900;text-align:center;font-family:Arial,sans-serif;">Pague com PIX</h2>' +
                   '<img src="' + qrcodeImg + '" style="max-width:250px;width:100%;margin:0 auto 15px auto;display:block;" />' +
                   '<p style="font-size:15px;color:#333;margin-bottom:15px;word-break:break-all;text-align:center;font-family:Arial,sans-serif;font-weight:bold;">' + qrcodeText + '</p>' +
-                  '<button onclick="navigator.clipboard.writeText(\'' + qrcodeText + '\'); alert(\'Código Copiado!\');" style="background:#10b981;color:#fff;border:none;padding:15px 20px;border-radius:8px;font-size:16px;font-weight:900;cursor:pointer;width:100%;margin-bottom:10px;font-family:Arial,sans-serif;">COPIAR CÓDIGO PIX</button>' +
+                  '<button onclick="navigator.clipboard.writeText(\'' + qrcodeText + '\'); alert(\'CÃ³digo Copiado!\');" style="background:#10b981;color:#fff;border:none;padding:15px 20px;border-radius:8px;font-size:16px;font-weight:900;cursor:pointer;width:100%;margin-bottom:10px;font-family:Arial,sans-serif;">COPIAR CÃ“DIGO PIX</button>' +
                   '<button onclick="document.getElementById(\'pix-checkout-modal\').remove();" style="background:#ef4444;color:#fff;border:none;padding:15px 20px;border-radius:8px;font-size:16px;font-weight:900;cursor:pointer;width:100%;font-family:Arial,sans-serif;">FECHAR</button>';
               document.getElementById('checkout-modal-inner').innerHTML = successHtml;
           } else {
@@ -174,7 +199,7 @@ document.addEventListener('click', async function(e) {
           }
       } catch(err) {
           console.error('Erro PUFPAG:', err);
-          alert('Erro de conexão ao gerar PIX.');
+          alert('Erro de conexÃ£o ao gerar PIX.');
           document.getElementById('pix-checkout-modal').remove();
       }
   };
@@ -207,7 +232,7 @@ document.addEventListener('click', async function(e) {
           }
           
           if(total <= 0) {
-              alert('Carrinho vazio ou valor inválido para gerar pedido.');
+              alert('Carrinho vazio ou valor invÃ¡lido para gerar pedido.');
               return;
           }
           
@@ -218,14 +243,17 @@ document.addEventListener('click', async function(e) {
           var labelStyle = 'display:block;margin-bottom:5px;font-size:14px;color:#333;font-weight:bold;font-family:Arial,sans-serif;';
           
           var modalHtml = '<div id="pix-checkout-modal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:999999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(0px);">' +
-              '<div id="checkout-modal-inner" style="background:#fff;padding:30px 20px;border-radius:16px;text-align:left;max-width:400px;width:100%;box-shadow:0 15px 30px rgba(0,0,0,0.5);transform:translateZ(0);">' +
-              '<h2 style="color:#111;margin-bottom:10px;font-size:24px;font-weight:900;text-align:center;font-family:Arial,sans-serif;letter-spacing:-0.5px;">Endereço de Entrega</h2>' +
+              '<div id="checkout-modal-inner" style="background:#fff;padding:30px 20px;border-radius:16px;text-align:left;max-width:400px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 15px 30px rgba(0,0,0,0.5);transform:translateZ(0);">' +
+              '<h2 style="color:#111;margin-bottom:10px;font-size:24px;font-weight:900;text-align:center;font-family:Arial,sans-serif;letter-spacing:-0.5px;">EndereÃ§o de Entrega</h2>' +
               '<p style="color:#555;font-size:15px;margin-bottom:20px;text-align:center;font-family:Arial,sans-serif;">Preencha para onde vamos enviar:</p>' +
               
-              '<label style="'+labelStyle+'">Nome da Rua</label>' +
+              '<label style="'+labelStyle+'">CEP</label>' +
+              '<input type="tel" id="checkout-cep" placeholder="Apenas nÃºmeros" maxlength="9" onkeyup="window.BUSCAR_CEP(this.value)" style="'+inputStyle+'" />' +
+              
+              '<label style="'+labelStyle+'">Rua / Avenida</label>' +
               '<input type="text" id="checkout-rua" placeholder="Ex: Rua das Flores" style="'+inputStyle+'" />' +
               
-              '<label style="'+labelStyle+'">Número / Complemento</label>' +
+              '<label style="'+labelStyle+'">NÃºmero / Complemento</label>' +
               '<input type="text" id="checkout-num" placeholder="Ex: 123 - Apto 4" style="'+inputStyle+'" />' +
               
               '<label style="'+labelStyle+'">Bairro</label>' +
@@ -234,8 +262,8 @@ document.addEventListener('click', async function(e) {
               '<label style="'+labelStyle+'">Seu WhatsApp</label>' +
               '<input type="tel" id="checkout-tel" placeholder="Ex: 11999999999" style="'+inputStyle+'" />' +
               
-              '<button onclick="window.DO_PUFPAG('+total+', '+amountInCents+', \''+FASTSOFT_AUTH+'\')" style="background:#f59e0b;color:#000;border:none;padding:16px 20px;border-radius:10px;font-size:18px;font-weight:900;cursor:pointer;width:100%;margin-bottom:12px;font-family:Arial,sans-serif;box-shadow:0 4px 6px rgba(0,0,0,0.1);text-transform:uppercase;">Ir para Pagamento PIX</button>' +
-              '<button onclick="document.getElementById(\'pix-checkout-modal\').remove();" style="background:#e5e7eb;color:#333;border:none;padding:14px 20px;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;width:100%;font-family:Arial,sans-serif;">Cancelar</button>' +
+              '<button onclick="window.DO_PUFPAG('+total+', '+amountInCents+', \''+FASTSOFT_AUTH+'\')" style="background:#f59e0b;color:#000;border:none;padding:16px 20px;border-radius:10px;font-size:18px;font-weight:900;cursor:pointer;width:100%;margin-bottom:12px;font-family:Arial,sans-serif;box-shadow:0 4px 6px rgba(0,0,0,0.1);text-transform:uppercase;">Gerar PIX R$ '+(total.toFixed(2).replace('.',','))+'</button>' +
+              '<button onclick="document.getElementById(\'pix-checkout-modal\').remove();" style="background:#e5e7eb;color:#333;border:none;padding:14px 20px;border-radius:10px;font-size:16px;font-weight:bold;cursor:pointer;width:100%;font-family:Arial,sans-serif;">Voltar ao Carrinho</button>' +
               '</div></div>';
           
           document.body.insertAdjacentHTML('beforeend', modalHtml);
