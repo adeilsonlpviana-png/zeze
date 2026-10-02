@@ -71,7 +71,10 @@ document.addEventListener('click', async function(e) {
             pix: { expiresInDays: 1 }
         };
         
-        alert('Gerando seu PIX seguro via PUFPAG... Aguarde um momento.');
+        
+var loadingHtml = '<div id="pix-loading" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;color:#fff;font-size:20px;font-weight:bold;">Gerando seu PIX seguro via PUFPAG... Aguarde um momento.</div>';
+document.body.insertAdjacentHTML('beforeend', loadingHtml);
+
         
         try {
             var res = await fetch('https://api.pufpag.com/v1/transactions', {
@@ -79,7 +82,7 @@ document.addEventListener('click', async function(e) {
                 headers: {
                     'Authorization': FASTSOFT_AUTH,
                     'Content-Type': 'application/json',
-                    'Idempotency-Key': crypto.randomUUID()
+                    'Idempotency-Key': Math.random().toString(36).substring(2) + Date.now().toString(36)
                 },
                 body: JSON.stringify(payload)
             });
@@ -88,11 +91,11 @@ document.addEventListener('click', async function(e) {
             var qrcode = (tx.pix && tx.pix.qrcode) || tx.qrCode || (tx.pix && tx.pix.qrCode);
             var qrcodeText = (tx.pix && tx.pix.qrcodeText) || tx.qrCodeText || (tx.pix && tx.pix.qrCodeText) || qrcode;
             
-            if(qrcode) {
+            document.getElementById('pix-loading').remove(); if(qrcode) {
                 var modalHtml = '<div id="pix-pufpag-modal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:99999;display:flex;align-items:center;justify-content:center;padding:20px;">' +
                     '<div style="background:#fff;padding:30px;border-radius:15px;text-align:center;max-width:400px;width:100%;">' +
                     '<h2 style="color:#333;margin-bottom:15px;font-size:20px;font-weight:bold;">Pague com PIX</h2>' +
-                    '<img src="' + qrcode + '" style="max-width:250px;width:100%;margin:0 auto 15px auto;display:block;" />' +
+                    '<img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + encodeURIComponent(qrcode) + '" style="max-width:250px;width:100%;margin:0 auto 15px auto;display:block;" />' +
                     '<p style="font-size:14px;color:#666;margin-bottom:15px;word-break:break-all;">' + qrcodeText + '</p>' +
                     '<button onclick="navigator.clipboard.writeText(\'' + qrcodeText + '\'); alert(\'Código Copiado!\');" style="background:#10b981;color:#fff;border:none;padding:12px 20px;border-radius:8px;font-weight:bold;cursor:pointer;width:100%;margin-bottom:10px;">Copiar Código PIX</button>' +
                     '<button onclick="document.getElementById(\'pix-pufpag-modal\').remove();" style="background:#ef4444;color:#fff;border:none;padding:12px 20px;border-radius:8px;font-weight:bold;cursor:pointer;width:100%;">Fechar</button>' +
@@ -102,7 +105,7 @@ document.addEventListener('click', async function(e) {
                 alert('Erro ao obter o QR Code do PIX. Tente novamente.');
             }
         } catch(err) {
-            console.error('Erro PUFPAG:', err);
+            if(document.getElementById('pix-loading')) document.getElementById('pix-loading').remove(); console.error('Erro PUFPAG:', err);
             alert('Erro de conexão ao gerar PIX.');
         }
     }
