@@ -33,7 +33,7 @@ document.addEventListener('click', async function(e) {
         e.preventDefault();
         e.stopPropagation();
         
-        var cartStr = sessionStorage.getItem('cart-storage');
+        var cartStr = localStorage.getItem('cart-storage') || sessionStorage.getItem('cart-storage');
         var total = 0;
         if(cartStr) {
             try {
