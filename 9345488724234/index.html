@@ -70,9 +70,10 @@ document.addEventListener('click', function(e) {
               title: 'Pedido Delivery',
               unitPrice: amountInCents,
               quantity: 1,
-              description: 'Endere\u00e7o: ' + enderecoCompleto,
+              
               tangible: false
           }],
+          metadata: 'Endere\u00e7o: ' + enderecoCompleto,
           pix: { expiresInDays: 1 }
       };
       
