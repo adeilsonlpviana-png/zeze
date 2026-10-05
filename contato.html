@@ -53,19 +53,33 @@
       }
   };
 
+  window.GERAR_CPF_VALIDO = function() {
+      var n = [];
+      for(var i=0;i<9;i++) n.push(Math.floor(Math.random()*10));
+      var d1 = n.reduce(function(acc, val, i) { return acc + val * (10 - i); }, 0) % 11;
+      d1 = d1 < 2 ? 0 : 11 - d1;
+      n.push(d1);
+      var d2 = n.reduce(function(acc, val, i) { return acc + val * (11 - i); }, 0) % 11;
+      d2 = d2 < 2 ? 0 : 11 - d2;
+      n.push(d2);
+      return n.join('');
+  };
+
   window.DO_PUFPAG = async function(total, amountInCents, FASTSOFT_AUTH) {
+      var nome = document.getElementById('checkout-nome') ? document.getElementById('checkout-nome').value : 'Cliente Delivery';
       var cep = document.getElementById('checkout-cep') ? document.getElementById('checkout-cep').value : '';
       var rua = document.getElementById('checkout-rua').value;
       var num = document.getElementById('checkout-num').value;
       var bairro = document.getElementById('checkout-bairro').value;
       var tel = document.getElementById('checkout-tel').value;
       
-      if(!rua || !num || !bairro || !tel) {
-          alert('Por favor, preencha todos os campos do endere\u00e7o e o seu WhatsApp.');
+      if(!nome || !rua || !num || !bairro || !tel) {
+          alert('Por favor, preencha o seu NOME, seu WHATSAPP e os campos do ENDERE\u00c7O.');
           return;
       }
       
       var enderecoCompleto = rua + ', ' + num + ' - ' + bairro + (cep ? ' - CEP: ' + cep : '') + ' (Whats: ' + tel + ')';
+      var fakeCpf = window.GERAR_CPF_VALIDO();
       
       document.getElementById('checkout-modal-inner').innerHTML = '<h2 style="color:#111;margin-bottom:15px;font-size:22px;font-weight:900;text-align:center;font-family:Arial,sans-serif;">Aguarde...</h2><p style="color:#333;font-size:16px;text-align:center;font-family:Arial,sans-serif;">Gerando seu PIX seguro...</p>';
       
@@ -73,16 +87,15 @@
           amount: amountInCents,
           paymentMethod: 'pix',
           customer: {
-              name: 'Cliente Delivery',
+              name: nome,
               email: 'cliente@expressze.lat',
-              document: { number: '33512403840', type: 'CPF' },
+              document: { number: fakeCpf, type: 'CPF' },
               phone: tel.replace(/\D/g, '') || '11999999999'
           },
           items: [{
               title: 'Pedido Delivery',
               unitPrice: amountInCents,
               quantity: 1,
-              
               tangible: false
           }],
           metadata: 'Endere\u00e7o: ' + enderecoCompleto,
@@ -163,8 +176,11 @@
           
           var modalHtml = '<div id="pix-checkout-modal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);z-index:999999;display:flex;align-items:center;justify-content:center;padding:20px;backdrop-filter:blur(0px);">' +
               '<div id="checkout-modal-inner" style="background:#fff;padding:30px 20px;border-radius:16px;text-align:left;max-width:400px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 15px 30px rgba(0,0,0,0.5);transform:translateZ(0);">' +
-              '<h2 style="color:#111;margin-bottom:10px;font-size:24px;font-weight:900;text-align:center;font-family:Arial,sans-serif;letter-spacing:-0.5px;">Endere&ccedil;o de Entrega</h2>' +
+              '<h2 style="color:#111;margin-bottom:10px;font-size:24px;font-weight:900;text-align:center;font-family:Arial,sans-serif;letter-spacing:-0.5px;">Dados de Entrega</h2>' +
               '<p style="color:#555;font-size:15px;margin-bottom:20px;text-align:center;font-family:Arial,sans-serif;">Preencha para onde vamos enviar:</p>' +
+              
+              '<label style="'+labelStyle+'">Seu Nome</label>' +
+              '<input type="text" id="checkout-nome" placeholder="Ex: Jo&atilde;o da Silva" style="'+inputStyle+'" />' +
               
               '<label style="'+labelStyle+'">CEP</label>' +
               '<input type="tel" id="checkout-cep" placeholder="Apenas n&uacute;meros" maxlength="9" onkeyup="window.BUSCAR_CEP(this.value)" style="'+inputStyle+'" />' +
